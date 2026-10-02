@@ -1,0 +1,438 @@
+{
+  "seed": 20260930,
+  "n_per_profile": 1000000,
+  "segments": {
+    "chatops": {
+      "mean": 20.1,
+      "p50": 14,
+      "p90": 42,
+      "p99": 102,
+      "min": 1,
+      "max": 400,
+      "note": "Slack/Teams/Discord style messages (ASSUMED)"
+    },
+    "sms_push": {
+      "mean": 20.7,
+      "p50": 18,
+      "p90": 36,
+      "p99": 60,
+      "min": 1,
+      "max": 60,
+      "note": "SMS/notification, ~160-char cap (ASSUMED)"
+    },
+    "support_chat": {
+      "mean": 45.2,
+      "p50": 30,
+      "p90": 96,
+      "p99": 246,
+      "min": 1,
+      "max": 600,
+      "note": "Customer-support chat turns (ASSUMED)"
+    },
+    "llm_conv": {
+      "mean": 69.5,
+      "p50": 38,
+      "p90": 155,
+      "p99": 495,
+      "min": 1,
+      "max": 4000,
+      "note": "LLM conversational prompt; mean pinned to 69.5 (LMSYS, GROUNDED)"
+    },
+    "llm_paste": {
+      "mean": 289.9,
+      "p50": 54,
+      "p90": 573,
+      "p99": 3982,
+      "min": 1,
+      "max": 32000,
+      "note": "LLM heavy-tail prompt; mean~296, sd~1609 (WildChat, GROUNDED)"
+    },
+    "email": {
+      "mean": 253.9,
+      "p50": 170,
+      "p90": 535,
+      "p99": 1384,
+      "min": 5,
+      "max": 4000,
+      "note": "Email body (ASSUMED)"
+    },
+    "form_ticket": {
+      "mean": 151.6,
+      "p50": 110,
+      "p90": 308,
+      "p99": 707,
+      "min": 5,
+      "max": 2000,
+      "note": "Forms/tickets/intake with personal details (ASSUMED)"
+    },
+    "log_line": {
+      "mean": 53.8,
+      "p50": 45,
+      "p90": 97,
+      "p99": 184,
+      "min": 4,
+      "max": 556,
+      "note": "App/log line (ASSUMED)"
+    },
+    "document": {
+      "mean": 2832.8,
+      "p50": 1804,
+      "p90": 6092,
+      "p99": 16446,
+      "min": 200,
+      "max": 128000,
+      "note": "Pasted docs/transcripts/contracts (ASSUMED)"
+    }
+  },
+  "profiles": {
+    "chatops_heavy": {
+      "mean_tokens": 60.2,
+      "p50": 22,
+      "p90": 95,
+      "p99": 578,
+      "p99.9": 4105,
+      "max": 50405,
+      "share_msgs_over": {
+        "64": 0.1627,
+        "128": 0.0681,
+        "256": 0.0288,
+        "512": 0.0118,
+        "1024": 0.0052,
+        "2048": 0.0025,
+        "8192": 0.0003
+      },
+      "share_tokens_over": {
+        "64": 0.6969,
+        "128": 0.558,
+        "256": 0.4429,
+        "512": 0.3431,
+        "1024": 0.2669,
+        "2048": 0.2046,
+        "8192": 0.0663
+      },
+      "buckets": {
+        "XS<=32": {
+          "msg_share": 0.6472,
+          "token_share": 0.1597
+        },
+        "S<=128": {
+          "msg_share": 0.2848,
+          "token_share": 0.2824
+        },
+        "M<=512": {
+          "msg_share": 0.0563,
+          "token_share": 0.2148
+        },
+        "L<=2048": {
+          "msg_share": 0.0093,
+          "token_share": 0.1385
+        },
+        "XL>2048": {
+          "msg_share": 0.0025,
+          "token_share": 0.2046
+        }
+      },
+      "weights": {
+        "chatops": 0.55,
+        "log_line": 0.15,
+        "support_chat": 0.1,
+        "sms_push": 0.08,
+        "email": 0.05,
+        "form_ticket": 0.03,
+        "llm_conv": 0.03,
+        "llm_paste": 0.005,
+        "document": 0.005
+      },
+      "inline_5ms_coverage_model": [
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 50000,
+          "max_tokens_in_5ms": 200,
+          "msg_share_within_budget": 0.9607
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 100000,
+          "max_tokens_in_5ms": 400,
+          "msg_share_within_budget": 0.9837
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 250000,
+          "max_tokens_in_5ms": 1000,
+          "msg_share_within_budget": 0.9947
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 500000,
+          "max_tokens_in_5ms": 2000,
+          "msg_share_within_budget": 0.9974
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 50000,
+          "max_tokens_in_5ms": 150,
+          "msg_share_within_budget": 0.944
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 100000,
+          "max_tokens_in_5ms": 300,
+          "msg_share_within_budget": 0.9765
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 250000,
+          "max_tokens_in_5ms": 750,
+          "msg_share_within_budget": 0.9927
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 500000,
+          "max_tokens_in_5ms": 1500,
+          "msg_share_within_budget": 0.9965
+        }
+      ],
+      "capacity": {
+        "peak_msgs_per_s(ASSUMED 4x of 11.6k avg)": 46000,
+        "peak_tokens_per_s": 2769200,
+        "avg_tokens_per_s(11.6k msg/s)": 696755,
+        "TFLOP_per_s_peak_7M_nonemb_student(2*params*tok)": 38.8,
+        "TFLOP_per_s_peak_50M_active(2*params*tok)": 276.9,
+        "note": "arithmetic only; excludes attention cost, padding waste, utilization (<100%) and the cascade savings"
+      }
+    },
+    "llm_gateway": {
+      "mean_tokens": 251.7,
+      "p50": 45,
+      "p90": 367,
+      "p99": 4336,
+      "p99.9": 14133,
+      "max": 70594,
+      "share_msgs_over": {
+        "64": 0.3977,
+        "128": 0.236,
+        "256": 0.1327,
+        "512": 0.0781,
+        "1024": 0.0473,
+        "2048": 0.0255,
+        "8192": 0.0033
+      },
+      "share_tokens_over": {
+        "64": 0.9387,
+        "128": 0.8802,
+        "256": 0.8065,
+        "512": 0.7293,
+        "1024": 0.6412,
+        "2048": 0.5154,
+        "8192": 0.1787
+      },
+      "buckets": {
+        "XS<=32": {
+          "msg_share": 0.4062,
+          "token_share": 0.025
+        },
+        "S<=128": {
+          "msg_share": 0.3578,
+          "token_share": 0.0948
+        },
+        "M<=512": {
+          "msg_share": 0.1579,
+          "token_share": 0.151
+        },
+        "L<=2048": {
+          "msg_share": 0.0526,
+          "token_share": 0.2139
+        },
+        "XL>2048": {
+          "msg_share": 0.0255,
+          "token_share": 0.5154
+        }
+      },
+      "weights": {
+        "llm_conv": 0.55,
+        "llm_paste": 0.3,
+        "chatops": 0.03,
+        "support_chat": 0.03,
+        "form_ticket": 0.03,
+        "email": 0.02,
+        "document": 0.04
+      },
+      "inline_5ms_coverage_model": [
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 50000,
+          "max_tokens_in_5ms": 200,
+          "msg_share_within_budget": 0.837
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 100000,
+          "max_tokens_in_5ms": 400,
+          "msg_share_within_budget": 0.9064
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 250000,
+          "max_tokens_in_5ms": 1000,
+          "msg_share_within_budget": 0.9519
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 500000,
+          "max_tokens_in_5ms": 2000,
+          "msg_share_within_budget": 0.9739
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 50000,
+          "max_tokens_in_5ms": 150,
+          "msg_share_within_budget": 0.7928
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 100000,
+          "max_tokens_in_5ms": 300,
+          "msg_share_within_budget": 0.8833
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 250000,
+          "max_tokens_in_5ms": 750,
+          "msg_share_within_budget": 0.9405
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 500000,
+          "max_tokens_in_5ms": 1500,
+          "msg_share_within_budget": 0.9654
+        }
+      ],
+      "capacity": {
+        "peak_msgs_per_s(ASSUMED 4x of 11.6k avg)": 46000,
+        "peak_tokens_per_s": 11578200,
+        "avg_tokens_per_s(11.6k msg/s)": 2913176,
+        "TFLOP_per_s_peak_7M_nonemb_student(2*params*tok)": 162.1,
+        "TFLOP_per_s_peak_50M_active(2*params*tok)": 1157.8,
+        "note": "arithmetic only; excludes attention cost, padding waste, utilization (<100%) and the cascade savings"
+      }
+    },
+    "mixed_enterprise": {
+      "mean_tokens": 229.9,
+      "p50": 37,
+      "p90": 311,
+      "p99": 4208,
+      "p99.9": 13058,
+      "max": 86990,
+      "share_msgs_over": {
+        "64": 0.3456,
+        "128": 0.2041,
+        "256": 0.1166,
+        "512": 0.0691,
+        "1024": 0.0435,
+        "2048": 0.0246,
+        "8192": 0.003
+      },
+      "share_tokens_over": {
+        "64": 0.9294,
+        "128": 0.8738,
+        "256": 0.8053,
+        "512": 0.7318,
+        "1024": 0.6514,
+        "2048": 0.5315,
+        "8192": 0.1715
+      },
+      "buckets": {
+        "XS<=32": {
+          "msg_share": 0.4587,
+          "token_share": 0.0313
+        },
+        "S<=128": {
+          "msg_share": 0.3371,
+          "token_share": 0.095
+        },
+        "M<=512": {
+          "msg_share": 0.135,
+          "token_share": 0.142
+        },
+        "L<=2048": {
+          "msg_share": 0.0445,
+          "token_share": 0.2003
+        },
+        "XL>2048": {
+          "msg_share": 0.0246,
+          "token_share": 0.5315
+        }
+      },
+      "weights": {
+        "chatops": 0.25,
+        "llm_conv": 0.15,
+        "support_chat": 0.12,
+        "log_line": 0.12,
+        "email": 0.1,
+        "form_ticket": 0.08,
+        "llm_paste": 0.08,
+        "sms_push": 0.05,
+        "document": 0.05
+      },
+      "inline_5ms_coverage_model": [
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 50000,
+          "max_tokens_in_5ms": 200,
+          "msg_share_within_budget": 0.8575
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 100000,
+          "max_tokens_in_5ms": 400,
+          "msg_share_within_budget": 0.9174
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 250000,
+          "max_tokens_in_5ms": 1000,
+          "msg_share_within_budget": 0.9558
+        },
+        {
+          "fixed_ms": 1.0,
+          "rate_tok_per_s": 500000,
+          "max_tokens_in_5ms": 2000,
+          "msg_share_within_budget": 0.9748
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 50000,
+          "max_tokens_in_5ms": 150,
+          "msg_share_within_budget": 0.8199
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 100000,
+          "max_tokens_in_5ms": 300,
+          "msg_share_within_budget": 0.8972
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 250000,
+          "max_tokens_in_5ms": 750,
+          "msg_share_within_budget": 0.9464
+        },
+        {
+          "fixed_ms": 2.0,
+          "rate_tok_per_s": 500000,
+          "max_tokens_in_5ms": 1500,
+          "msg_share_within_budget": 0.9673
+        }
+      ],
+      "capacity": {
+        "peak_msgs_per_s(ASSUMED 4x of 11.6k avg)": 46000,
+        "peak_tokens_per_s": 10575400,
+        "avg_tokens_per_s(11.6k msg/s)": 2660863,
+        "TFLOP_per_s_peak_7M_nonemb_student(2*params*tok)": 148.1,
+        "TFLOP_per_s_peak_50M_active(2*params*tok)": 1057.5,
+        "note": "arithmetic only; excludes attention cost, padding waste, utilization (<100%) and the cascade savings"
+      }
+    }
+  }
+}
