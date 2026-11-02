@@ -74,6 +74,9 @@ jobs:
           [ -z "$files" ] || shellcheck -S warning $files
       - name: docker compose config
         run: |
+          # deploy/pi5 compose files take IMAGE/TAG/STACK_DIR from deploy.sh; stub them here
+          export IMAGE=ci TAG=ci STACK_DIR="$(mktemp -d)"
+          touch "$STACK_DIR/.env" "$STACK_DIR/pg_password"
           for f in $(git ls-files | grep -E '(^|/)(docker-)?compose[^/]*\.ya?ml$'); do
             d=$(dirname "$f")
             # compose files often reference a git-ignored .env; seed it from the example
@@ -107,7 +110,7 @@ jobs:
           for r in requirements.txt requirements-aios.txt; do
             [ -f "$r" ] && pip install -r "$r"
           done
-          if [ -f pyproject.toml ]; then pip install -e ".[dev]" || pip install -e . || true; fi
+          if [ -f pyproject.toml ]; then pip install -e ".[dev,api,test,tests]" || pip install -e ".[dev]" || pip install -e . || true; fi
       - name: Lint (ruff)
         continue-on-error: ${{ env.STRICT != 'true' }}
         run: ruff check .
