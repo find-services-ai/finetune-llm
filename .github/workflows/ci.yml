@@ -8,7 +8,8 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    # feature branches get full CI on every push, before any PR exists
+    branches: [main, 'claude/**', 'feature/**', 'fix/**']
   workflow_dispatch:
 
 concurrency:
