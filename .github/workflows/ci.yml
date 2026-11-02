@@ -74,6 +74,9 @@ jobs:
       - name: docker compose config
         run: |
           for f in $(git ls-files | grep -E '(^|/)(docker-)?compose[^/]*\.ya?ml$'); do
+            d=$(dirname "$f")
+            # compose files often reference a git-ignored .env; seed it from the example
+            [ -f "$d/.env" ] || [ ! -f "$d/.env.example" ] || cp "$d/.env.example" "$d/.env"
             echo "validating $f"; docker compose -f "$f" config -q || exit 1
           done
 
@@ -108,7 +111,7 @@ jobs:
         continue-on-error: ${{ env.STRICT != 'true' }}
         run: ruff check .
       - name: Compile check
-        run: python -m compileall -q .
+        run: python -m compileall -q -x '(^|/)(ideas|node_modules|\.venv|venv)/' .
       - name: Tests
         run: |
           set +e
